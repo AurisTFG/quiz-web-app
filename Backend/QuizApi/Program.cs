@@ -1,7 +1,7 @@
 using Microsoft.EntityFrameworkCore;
 using QuizApi.Infrastructure.DbContexts;
+using QuizApi.Infrastructure.Seeders;
 using QuizApi.Repositories;
-using QuizApi.Seeders;
 using QuizApi.Services;
 
 var builder = WebApplication.CreateBuilder(args);

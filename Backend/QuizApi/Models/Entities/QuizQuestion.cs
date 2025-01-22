@@ -1,4 +1,4 @@
-﻿using QuizApi.Enums;
+﻿using QuizApi.Models.Enums;
 using System.ComponentModel.DataAnnotations;
 
 namespace QuizApi.Models.Entities;

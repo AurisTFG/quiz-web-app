@@ -4,13 +4,6 @@ using QuizApi.Models.Entities;
 
 namespace QuizApi.Repositories;
 
-public interface IQuizRepository
-{
-    Task<List<QuizQuestion>> GetAllQuestionsAsync();
-    Task SaveQuizResultAsync(QuizResult entry);
-    Task<List<QuizResult>> GetTopHighScoresAsync(int count);
-}
-
 public class QuizRepository(QuizDbContext context) : IQuizRepository
 {
     private readonly QuizDbContext context = context;

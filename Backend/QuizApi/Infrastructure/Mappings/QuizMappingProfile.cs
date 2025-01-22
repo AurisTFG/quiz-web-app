@@ -1,6 +1,6 @@
 ﻿using AutoMapper;
-using QuizApi.Models.DTOs.Responses;
 using QuizApi.Models.DTOs.Requests;
+using QuizApi.Models.DTOs.Responses;
 using QuizApi.Models.Entities;
 
 namespace QuizApi.Infrastructure.Mappings;

@@ -1,4 +1,4 @@
-﻿namespace QuizApi.Enums;
+﻿namespace QuizApi.Models.Enums;
 
 public enum QuestionType
 {

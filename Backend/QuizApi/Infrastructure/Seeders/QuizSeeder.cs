@@ -1,8 +1,8 @@
-﻿using QuizApi.Enums;
-using QuizApi.Infrastructure.DbContexts;
+﻿using QuizApi.Infrastructure.DbContexts;
 using QuizApi.Models.Entities;
+using QuizApi.Models.Enums;
 
-namespace QuizApi.Seeders;
+namespace QuizApi.Infrastructure.Seeders;
 
 public class QuizSeeder(QuizDbContext context)
 {

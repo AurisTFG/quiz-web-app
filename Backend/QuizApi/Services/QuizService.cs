@@ -1,18 +1,11 @@
 ﻿using AutoMapper;
-using QuizApi.Enums;
 using QuizApi.Models.DTOs.Requests;
 using QuizApi.Models.DTOs.Responses;
 using QuizApi.Models.Entities;
+using QuizApi.Models.Enums;
 using QuizApi.Repositories;
 
 namespace QuizApi.Services;
-
-public interface IQuizService
-{
-    Task<List<QuizQuestionResponseDTO>> GetAllQuestionsAsync();
-    Task<QuizSubmitResponseDTO> SubmitQuizAsync(QuizSubmitRequestDTO submission);
-    Task<List<QuizResultResponseDTO>> GetHighScoresAsync();
-}
 
 public class QuizService(IQuizRepository quizRepository, IMapper mapper) : IQuizService
 {
@@ -69,7 +62,7 @@ public class QuizService(IQuizRepository quizRepository, IMapper mapper) : IQuiz
                     int correctCount = providedAnswers.Intersect(question.CorrectAnswers).Count();
                     int wrongCount = providedAnswers.Length - correctCount;
 
-                    int score = (int)Math.Ceiling(100.0 / goodAnswerCount * correctCount - 100.0 / goodAnswerCount * wrongCount);
+                    int score = (int)Math.Ceiling((100.0 / goodAnswerCount * correctCount) - (100.0 / goodAnswerCount * wrongCount));
 
                     if (score > 0)
                         totalScore += score;

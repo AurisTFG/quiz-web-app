@@ -1,4 +1,4 @@
-﻿using QuizApi.Enums;
+﻿using QuizApi.Models.Enums;
 
 namespace QuizApi.Models.DTOs.Responses;
 

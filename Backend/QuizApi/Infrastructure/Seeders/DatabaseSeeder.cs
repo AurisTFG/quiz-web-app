@@ -1,6 +1,7 @@
 ﻿using QuizApi.Infrastructure.DbContexts;
+using QuizApi.Infrastructure.Seeders;
 
-namespace QuizApi.Seeders;
+namespace QuizApi.Infrastructure.Seeders;
 
 public class DatabaseSeeder(IServiceProvider serviceProvider)
 {
