@@ -1,0 +1,26 @@
+@QuizApi_HostAddress = https://localhost:7030/api/v1
+
+# Get all quiz questions
+GET {{QuizApi_HostAddress}}/quizzes/questions
+Accept: application/json
+
+###
+
+# Get all high scores
+GET {{QuizApi_HostAddress}}/quizzes/highscores
+Accept: application/json
+
+###
+
+# Submit answers
+POST {{QuizApi_HostAddress}}/quizzes/submit
+Content-Type: application/json
+{
+    "email": "example@example.com",
+    "answers": {
+        "1": ["4"],
+        "2": ["A", "B"],
+        "3": ["42"],
+        "4": ["Blue"]
+    }
+}
