@@ -54,20 +54,31 @@ public class QuizService(IQuizRepository quizRepository, IMapper mapper) : IQuiz
             if (!answers.TryGetValue(question.Id, out var providedAnswers))
                 continue;
 
+            if (question.CorrectAnswers.Length == 0 || providedAnswers.Length == 0)
+                continue;
+
             switch (question.QuestionType)
             {
                 case QuestionType.Radio:
-                case QuestionType.Text:
-                    if (providedAnswers.Length == 1 && question.CorrectAnswers.Contains(providedAnswers[0], StringComparer.OrdinalIgnoreCase))
-                    {
+                    if (question.CorrectAnswers[0] == providedAnswers[0])
                         totalScore += 100;
-                    }
-                    break;
 
+                    break;
                 case QuestionType.Checkbox:
-                    int correctCount = question.CorrectAnswers.Length;
-                    int matchedCount = providedAnswers.Intersect(question.CorrectAnswers, StringComparer.OrdinalIgnoreCase).Count();
-                    totalScore += (int)Math.Ceiling(100.0 / correctCount * matchedCount);
+                    int goodAnswerCount = question.CorrectAnswers.Length;
+                    int correctCount = providedAnswers.Intersect(question.CorrectAnswers).Count();
+                    int wrongCount = providedAnswers.Length - correctCount;
+
+                    int score = (int)Math.Ceiling(100.0 / goodAnswerCount * correctCount - 100.0 / goodAnswerCount * wrongCount);
+
+                    if (score > 0)
+                        totalScore += score;
+
+                    break;
+                case QuestionType.Text:
+                    if (string.Equals(question.CorrectAnswers[0], providedAnswers[0], StringComparison.OrdinalIgnoreCase))
+                        totalScore += 100;
+
                     break;
             }
         }
