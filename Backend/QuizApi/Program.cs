@@ -2,12 +2,14 @@ using Microsoft.EntityFrameworkCore;
 using QuizApi.Enums;
 using QuizApi.Infrastructure.DbContexts;
 using QuizApi.Models.Entities;
+using QuizApi.Repositories;
+using QuizApi.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
-builder.Services.AddDbContext<QuizDbContext>(options =>
-    options.UseInMemoryDatabase("QuizDB"));
-
+builder.Services.AddDbContext<QuizDbContext>(options => options.UseInMemoryDatabase("QuizDB"));
+builder.Services.AddScoped<IQuizRepository, QuizRepository>();
+builder.Services.AddScoped<IQuizService, QuizService>();
 builder.Services.AddControllers();
 
 var app = builder.Build();
