@@ -16,11 +16,17 @@ Accept: application/json
 POST {{QuizApi_HostAddress}}/quizzes/submit
 Content-Type: application/json
 {
-    "email": "example@example.com",
+    "email": "RealUser@example.com",
     "answers": {
         "1": ["4"],
-        "2": ["A", "B"],
-        "3": ["42"],
-        "4": ["Blue"]
+        "2": ["Mars"],
+        "3": ["100"],
+        "4": ["Blue Whale"],
+        "5": ["2", "3", "5"],
+        "6": ["2", "4"],
+        "7": ["Asia", "Europe", "Africa"],
+        "8": ["Red", "Green", "Yellow"],
+        "9": ["Paris"],
+        "10": ["8"]
     }
 }

@@ -2,11 +2,11 @@
 
 namespace QuizApi.Models.Entities;
 
-public class QuizEntry
+public class QuizResult
 {
     [Key]
     public int Id { get; set; }
-    public string Email { get; set; } = string.Empty;
+    public string Email { get; set; } = "";
     public int Score { get; set; }
-    public DateTime DateSubmitted { get; set; }
+    public DateTime SubmittedAt { get; set; }
 }

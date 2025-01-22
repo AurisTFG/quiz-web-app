@@ -16,10 +16,10 @@ public class QuizSeeder(QuizDbContext context)
             context.QuizQuestions.AddRange(questions);
         }
 
-        if (!context.QuizEntries.Any())
+        if (!context.QuizResults.Any())
         {
-            var entries = GetDefaultEntries();
-            context.QuizEntries.AddRange(entries);
+            var entries = GetDefaultResults();
+            context.QuizResults.AddRange(entries);
         }
 
         await context.SaveChangesAsync();
@@ -90,7 +90,7 @@ public class QuizSeeder(QuizDbContext context)
         ];
     }
 
-    private static List<QuizEntry> GetDefaultEntries()
+    private static List<QuizResult> GetDefaultResults()
     {
         var random = new Random();
         var now = DateTime.UtcNow;
@@ -103,61 +103,61 @@ public class QuizSeeder(QuizDbContext context)
             {
                 Email = "alice@example.com",
                 Score = random.Next(minScore, maxScore),
-                DateSubmitted = now.AddHours(-1)
+                SubmittedAt = now.AddHours(-1)
             },
             new()
             {
                 Email = "bob@example.com",
                 Score = random.Next(minScore, maxScore),
-                DateSubmitted = now.AddHours(-2)
+                SubmittedAt = now.AddHours(-2)
             },
             new()
             {
                 Email = "charlie@example.com",
                 Score = random.Next(minScore, maxScore),
-                DateSubmitted = now.AddHours(-3)
+                SubmittedAt = now.AddHours(-3)
             },
             new()
             {
                 Email = "diana@example.com",
                 Score = random.Next(minScore, maxScore),
-                DateSubmitted = now.AddHours(-4)
+                SubmittedAt = now.AddHours(-4)
             },
             new()
             {
                 Email = "edward@example.com",
                 Score = random.Next(minScore, maxScore),
-                DateSubmitted = now.AddHours(-5)
+                SubmittedAt = now.AddHours(-5)
             },
             new()
             {
                 Email = "fiona@example.com",
                 Score = random.Next(minScore, maxScore),
-                DateSubmitted = now.AddHours(-6)
+                SubmittedAt = now.AddHours(-6)
             },
             new()
             {
                 Email = "george@example.com",
                 Score = random.Next(minScore, maxScore),
-                DateSubmitted = now.AddHours(-7)
+                SubmittedAt = now.AddHours(-7)
             },
             new()
             {
                 Email = "hannah@example.com",
                 Score = random.Next(minScore, maxScore),
-                DateSubmitted = now.AddHours(-8)
+                SubmittedAt = now.AddHours(-8)
             },
             new()
             {
                 Email = "ian@example.com",
                 Score = random.Next(minScore, maxScore),
-                DateSubmitted = now.AddHours(-9)
+                SubmittedAt = now.AddHours(-9)
             },
             new()
             {
                 Email = "julia@example.com",
                 Score = random.Next(minScore, maxScore),
-                DateSubmitted = now.AddHours(-10)
+                SubmittedAt = now.AddHours(-10)
             }
         ];
     }

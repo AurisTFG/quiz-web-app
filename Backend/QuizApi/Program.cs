@@ -7,10 +7,14 @@ using QuizApi.Services;
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddDbContext<QuizDbContext>(options => options.UseInMemoryDatabase("QuizDB"));
+
 builder.Services.AddScoped<IQuizRepository, QuizRepository>();
 builder.Services.AddScoped<IQuizService, QuizService>();
 builder.Services.AddScoped<DatabaseSeeder>();
+
 builder.Services.AddControllers();
+
+builder.Services.AddAutoMapper(typeof(Program));
 
 var app = builder.Build();
 

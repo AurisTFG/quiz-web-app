@@ -1,5 +1,7 @@
-﻿using QuizApi.Enums;
-using QuizApi.Models.DTOs;
+﻿using AutoMapper;
+using QuizApi.Enums;
+using QuizApi.Models.DTOs.Requests;
+using QuizApi.Models.DTOs.Responses;
 using QuizApi.Models.Entities;
 using QuizApi.Repositories;
 
@@ -7,40 +9,40 @@ namespace QuizApi.Services;
 
 public interface IQuizService
 {
-    Task<List<QuizQuestion>> GetAllQuestionsAsync();
-    Task<object> SubmitQuizAsync(QuizSubmissionDTO submission);
-    Task<List<QuizEntry>> GetHighScoresAsync();
+    Task<List<QuizQuestionResponseDTO>> GetAllQuestionsAsync();
+    Task<QuizSubmitResponseDTO> SubmitQuizAsync(QuizSubmitRequestDTO submission);
+    Task<List<QuizResultResponseDTO>> GetHighScoresAsync();
 }
 
-public class QuizService(IQuizRepository quizRepository) : IQuizService
+public class QuizService(IQuizRepository quizRepository, IMapper mapper) : IQuizService
 {
     private readonly IQuizRepository quizRepository = quizRepository;
+    private readonly IMapper mapper = mapper;
 
-    public async Task<List<QuizQuestion>> GetAllQuestionsAsync()
-    {
-        return await quizRepository.GetAllQuestionsAsync();
-    }
-
-    public async Task<object> SubmitQuizAsync(QuizSubmissionDTO submission)
+    public async Task<List<QuizQuestionResponseDTO>> GetAllQuestionsAsync()
     {
         var questions = await quizRepository.GetAllQuestionsAsync();
-        int score = CalculateScore(questions, submission.Answers);
 
-        var entry = new QuizEntry
-        {
-            Email = submission.Email,
-            Score = score,
-            DateSubmitted = DateTime.UtcNow
-        };
-
-        await quizRepository.SaveQuizEntryAsync(entry);
-
-        return new { score };
+        return [.. questions.Select(mapper.Map<QuizQuestionResponseDTO>)];
     }
 
-    public async Task<List<QuizEntry>> GetHighScoresAsync()
+    public async Task<QuizSubmitResponseDTO> SubmitQuizAsync(QuizSubmitRequestDTO submission)
     {
-        return await quizRepository.GetTopHighScoresAsync(10);
+        var questions = await quizRepository.GetAllQuestionsAsync();
+
+        var quizResult = mapper.Map<QuizResult>(submission);
+        quizResult.Score = CalculateScore(questions, submission.Answers);
+
+        await quizRepository.SaveQuizResultAsync(quizResult);
+
+        return mapper.Map<QuizSubmitResponseDTO>(quizResult);
+    }
+
+    public async Task<List<QuizResultResponseDTO>> GetHighScoresAsync()
+    {
+        var highScores = await quizRepository.GetTopHighScoresAsync(10);
+
+        return [.. highScores.Select(mapper.Map<QuizResultResponseDTO>)];
     }
 
     private static int CalculateScore(List<QuizQuestion> questions, Dictionary<int, string[]> answers)

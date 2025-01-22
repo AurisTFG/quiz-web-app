@@ -7,8 +7,8 @@ namespace QuizApi.Repositories;
 public interface IQuizRepository
 {
     Task<List<QuizQuestion>> GetAllQuestionsAsync();
-    Task SaveQuizEntryAsync(QuizEntry entry);
-    Task<List<QuizEntry>> GetTopHighScoresAsync(int count);
+    Task SaveQuizResultAsync(QuizResult entry);
+    Task<List<QuizResult>> GetTopHighScoresAsync(int count);
 }
 
 public class QuizRepository(QuizDbContext context) : IQuizRepository
@@ -20,18 +20,18 @@ public class QuizRepository(QuizDbContext context) : IQuizRepository
         return await context.QuizQuestions.ToListAsync();
     }
 
-    public async Task SaveQuizEntryAsync(QuizEntry entry)
+    public async Task SaveQuizResultAsync(QuizResult entry)
     {
-        context.QuizEntries.Add(entry);
+        context.QuizResults.Add(entry);
 
         await context.SaveChangesAsync();
     }
 
-    public async Task<List<QuizEntry>> GetTopHighScoresAsync(int count)
+    public async Task<List<QuizResult>> GetTopHighScoresAsync(int count)
     {
-        return await context.QuizEntries
+        return await context.QuizResults
             .OrderByDescending(e => e.Score)
-            .ThenBy(e => e.DateSubmitted)
+            .ThenBy(e => e.SubmittedAt)
             .Take(count)
             .ToListAsync();
     }

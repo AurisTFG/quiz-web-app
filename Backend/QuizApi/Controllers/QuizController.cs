@@ -1,5 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using QuizApi.Models.DTOs;
+using QuizApi.Models.DTOs.Requests;
 using QuizApi.Services;
 
 namespace QuizApi.Controllers;
@@ -14,16 +14,15 @@ public class QuizController(IQuizService quizService) : ControllerBase
     public async Task<IActionResult> GetQuestions()
     {
         var questions = await quizService.GetAllQuestionsAsync();
+
         return Ok(questions);
     }
 
     [HttpPost("submit")]
-    public async Task<IActionResult> SubmitQuiz([FromBody] QuizSubmissionDTO submission)
+    public async Task<IActionResult> SubmitQuiz([FromBody] QuizSubmitRequestDTO submission)
     {
-        if (string.IsNullOrEmpty(submission.Email) || submission.Answers == null)
-            return BadRequest("Invalid submission data");
-
         var result = await quizService.SubmitQuizAsync(submission);
+
         return Ok(result);
     }
 
@@ -31,6 +30,7 @@ public class QuizController(IQuizService quizService) : ControllerBase
     public async Task<IActionResult> GetHighScores()
     {
         var highScores = await quizService.GetHighScoresAsync();
+
         return Ok(highScores);
     }
 }
