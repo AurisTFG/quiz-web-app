@@ -17,6 +17,8 @@ const CheckboxQuestion: React.FC<CheckboxQuestionProps> = ({
   answers,
   handleChange,
 }) => {
+  const selectedOptions = answers[questionId] || [];
+
   return (
     <Question question={question}>
       {options.map((option) => (
@@ -24,10 +26,11 @@ const CheckboxQuestion: React.FC<CheckboxQuestionProps> = ({
           <FormControlLabel
             control={
               <Checkbox
+                checked={selectedOptions.includes(option)}
                 onChange={(e) => {
                   const value = e.target.checked
-                    ? [...(answers[questionId] || []), option]
-                    : (answers[questionId] || []).filter((ans) => ans !== option);
+                    ? [...selectedOptions, option]
+                    : selectedOptions.filter((ans) => ans !== option);
                   handleChange(questionId, value);
                 }}
                 sx={{

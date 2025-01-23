@@ -100,6 +100,7 @@ const QuizPage: React.FC = () => {
                       questionId={questions[activeStep].id}
                       question={questions[activeStep].question}
                       options={questions[activeStep].options}
+                      answers={answers}
                       handleChange={handleChange}
                     />
                   )}
@@ -120,6 +121,7 @@ const QuizPage: React.FC = () => {
                       key={questions[activeStep].id}
                       questionId={questions[activeStep].id}
                       question={questions[activeStep].question}
+                      answers={answers}
                       handleChange={handleChange}
                     />
                   )}
