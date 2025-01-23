@@ -39,7 +39,7 @@ public class QuizService(IQuizRepository quizRepository, IMapper mapper) : IQuiz
         return [.. highScores.Select(mapper.Map<QuizResultResponseDTO>)];
     }
 
-    private static int CalculateScore(List<QuizQuestion> questions, Dictionary<int, string[]> answers)
+    public static int CalculateScore(List<QuizQuestion> questions, Dictionary<int, string[]> answers)
     {
         int totalScore = 0;
         int scorePerQuestion = QuizSettings.MaxScorePerQuestion;
@@ -75,6 +75,8 @@ public class QuizService(IQuizRepository quizRepository, IMapper mapper) : IQuiz
                         totalScore += scorePerQuestion;
 
                     break;
+                default:
+                    throw new NotSupportedException($"Question type {question.QuestionType} is not supported.");
             }
         }
 
