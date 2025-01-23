@@ -79,12 +79,12 @@ public class QuizSeeder(QuizDbContext context)
             },
             new() { // 9
                 Question = "What is the capital of France?",
-                QuestionType = QuestionType.Text,
+                QuestionType = QuestionType.Textbox,
                 CorrectAnswers = ["Paris"]
             },
             new() { // 10
                 Question = "What is the square root of 64?",
-                QuestionType = QuestionType.Text,
+                QuestionType = QuestionType.Textbox,
                 CorrectAnswers = ["8"]
             },
         ];

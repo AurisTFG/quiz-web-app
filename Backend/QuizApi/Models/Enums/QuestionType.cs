@@ -2,7 +2,7 @@
 
 public enum QuestionType
 {
-    Radio,
-    Checkbox,
-    Text
+    Radio = 1,
+    Checkbox = 2,
+    Textbox = 3,
 }

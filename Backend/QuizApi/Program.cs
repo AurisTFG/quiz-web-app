@@ -1,4 +1,5 @@
 using Microsoft.EntityFrameworkCore;
+using QuizApi.Infrastructure.Converters;
 using QuizApi.Infrastructure.DbContexts;
 using QuizApi.Infrastructure.Seeders;
 using QuizApi.Repositories;
@@ -20,7 +21,11 @@ builder.Services.AddScoped<IQuizRepository, QuizRepository>();
 builder.Services.AddScoped<IQuizService, QuizService>();
 builder.Services.AddScoped<DatabaseSeeder>();
 
-builder.Services.AddControllers();
+builder.Services.AddControllers()
+                .AddJsonOptions(options =>
+                {
+                    options.JsonSerializerOptions.Converters.Add(new QuestionTypeConverter());
+                });
 
 builder.Services.AddAutoMapper(typeof(Program));
 

@@ -68,7 +68,7 @@ public class QuizService(IQuizRepository quizRepository, IMapper mapper) : IQuiz
                         totalScore += score;
 
                     break;
-                case QuestionType.Text:
+                case QuestionType.Textbox:
                     if (string.Equals(question.CorrectAnswers[0], providedAnswers[0], StringComparison.OrdinalIgnoreCase))
                         totalScore += 100;
 
