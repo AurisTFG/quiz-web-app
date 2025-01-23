@@ -1,10 +1,11 @@
 import React from "react";
-import { TextField, FormLabel } from "@mui/material";
+import { TextField } from "@mui/material";
+import Question from "./Question";
 
 interface TextBoxQuestionProps {
   questionId: number;
   question: string;
-  handleChange: (questionId: number, value: string) => void;
+  handleChange: (questionId: number, value: string | string[]) => void;
 }
 
 const TextBoxQuestion: React.FC<TextBoxQuestionProps> = ({
@@ -13,17 +14,7 @@ const TextBoxQuestion: React.FC<TextBoxQuestionProps> = ({
   handleChange,
 }) => {
   return (
-    <div>
-      <FormLabel
-        sx={{
-          fontSize: "1.1rem",
-          fontWeight: 500,
-          marginBottom: "10px",
-          display: "block",
-        }}
-      >
-        {question}
-      </FormLabel>
+    <Question question={question}>
       <TextField
         onChange={(e) => handleChange(questionId, e.target.value)}
         fullWidth
@@ -37,7 +28,7 @@ const TextBoxQuestion: React.FC<TextBoxQuestionProps> = ({
           },
         }}
       />
-    </div>
+    </Question>
   );
 };
 

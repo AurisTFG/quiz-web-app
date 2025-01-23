@@ -1,5 +1,6 @@
 import React from "react";
-import { FormControlLabel, Checkbox, FormLabel } from "@mui/material";
+import { FormControlLabel, Checkbox } from "@mui/material";
+import Question from "./Question";
 
 interface CheckboxQuestionProps {
   questionId: number;
@@ -17,17 +18,7 @@ const CheckboxQuestion: React.FC<CheckboxQuestionProps> = ({
   handleChange,
 }) => {
   return (
-    <div>
-      <FormLabel
-        sx={{
-          fontSize: "1.1rem",
-          fontWeight: 500,
-          marginBottom: "10px",
-          display: "block",
-        }}
-      >
-        {question}
-      </FormLabel>
+    <Question question={question}>
       {options.map((option) => (
         <div key={option} style={{ textAlign: "left" }}>
           <FormControlLabel
@@ -51,7 +42,7 @@ const CheckboxQuestion: React.FC<CheckboxQuestionProps> = ({
           />
         </div>
       ))}
-    </div>
+    </Question>
   );
 };
 

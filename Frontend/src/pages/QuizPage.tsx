@@ -1,7 +1,11 @@
 import React, { useEffect, useState } from "react";
 import { getQuizQuestions, submitAnswers } from "../api/quizApi";
 import { QuizQuestionResponseDTO } from "../types/types";
-import QuizForm from "../components/Quiz/QuizForm";
+import { Button, TextField, Typography } from "@mui/material";
+import RadioQuestion from "../components/Quiz/RadioQuestion";
+import CheckboxQuestion from "../components/Quiz/CheckboxQuestion";
+import TextBoxQuestion from "../components/Quiz/TextBoxQuestion";
+import Spinner from "../components/Spinner/Spinner";
 import { useNavigate } from "react-router-dom";
 
 const QuizPage: React.FC = () => {
@@ -35,15 +39,78 @@ const QuizPage: React.FC = () => {
   };
 
   return (
-    <QuizForm
-      loading={loading}
-      questions={questions}
-      answers={answers}
-      email={email}
-      setEmail={setEmail}
-      handleChange={handleChange}
-      handleSubmit={handleSubmit}
-    />
+    <form onSubmit={handleSubmit}>
+      <Typography variant="h4" gutterBottom sx={{ fontWeight: 600 }}>
+        General Knowledge Quiz
+      </Typography>
+      <Typography variant="h6" gutterBottom>
+        (10 questions)
+      </Typography>
+      {loading ? (
+        <Spinner />
+      ) : (
+        <>
+          <TextField
+            label="Email"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            required
+            fullWidth
+            margin="normal"
+            sx={{
+              marginBottom: "20px",
+              "& .MuiOutlinedInput-root": {
+                borderRadius: "8px",
+                backgroundColor: "#f9f9f9",
+              },
+            }}
+          />
+
+          {questions.map((question) => {
+            if (question.questionType === "radio") {
+              return (
+                <RadioQuestion
+                  key={question.id}
+                  questionId={question.id}
+                  question={question.question}
+                  options={question.options}
+                  handleChange={handleChange}
+                />
+              );
+            }
+
+            if (question.questionType === "checkbox") {
+              return (
+                <CheckboxQuestion
+                  key={question.id}
+                  questionId={question.id}
+                  question={question.question}
+                  options={question.options}
+                  answers={answers}
+                  handleChange={handleChange}
+                />
+              );
+            }
+
+            if (question.questionType === "textbox") {
+              return (
+                <TextBoxQuestion
+                  key={question.id}
+                  questionId={question.id}
+                  question={question.question}
+                  handleChange={handleChange}
+                />
+              );
+            }
+
+            return null;
+          })}
+          <Button type="submit" variant="contained" color="primary">
+            Submit
+          </Button>
+        </>
+      )}
+    </form>
   );
 };
 

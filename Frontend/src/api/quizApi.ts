@@ -7,13 +7,13 @@ import {
 
 export const getQuizQuestions = async (): Promise<QuizQuestionResponseDTO[]> => {
   const response = await api.get("/quizzes/questions");
-  console.log(response);
 
   return response.data;
 };
 
 export const getHighScores = async (): Promise<QuizResultResponseDTO[]> => {
   const response = await api.get("/quizzes/highscores");
+
   return response.data;
 };
 
@@ -22,5 +22,6 @@ export const submitAnswers = async (
   answers: Record<string, string[]>
 ): Promise<QuizSubmitResponseDTO> => {
   const response = await api.post("/quizzes/submit", { email, answers });
+
   return response.data.score;
 };
