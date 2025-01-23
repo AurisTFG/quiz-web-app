@@ -77,20 +77,22 @@ const QuizPage: React.FC = () => {
               {question.questionType === "checkbox" && (
                 <>
                   {question.options.map((option) => (
-                    <FormControlLabel
-                      key={option}
-                      control={
-                        <Checkbox
-                          onChange={(e) => {
-                            const value = e.target.checked
-                              ? [...(answers[question.id] || []), option]
-                              : (answers[question.id] || []).filter((ans) => ans !== option);
-                            handleChange(question.id, value);
-                          }}
-                        />
-                      }
-                      label={option}
-                    />
+                    <div key={option} style={{ textAlign: "left" }}>
+                      <FormControlLabel
+                        control={
+                          <Checkbox
+                            onChange={(e) => {
+                              const value = e.target.checked
+                                ? [...(answers[question.id] || []), option]
+                                : (answers[question.id] || []).filter((ans) => ans !== option);
+                              handleChange(question.id, value);
+                            }}
+                          />
+                        }
+                        label={option}
+                        style={{ display: "block", textAlign: "left" }}
+                      />
+                    </div>
                   ))}
                 </>
               )}
