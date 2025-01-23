@@ -9,6 +9,7 @@ import {
   Radio,
   RadioGroup,
   FormLabel,
+  Typography,
 } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 
@@ -42,6 +43,7 @@ const Quiz: React.FC = () => {
 
   return (
     <form onSubmit={handleSubmit}>
+      <Typography variant="h4">General Knowledge Quiz (10 questions)</Typography>
       <TextField
         label="Email"
         value={email}

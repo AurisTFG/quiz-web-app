@@ -8,21 +8,22 @@ const Header: React.FC = () => {
   const isActive = (path: string) => location.pathname === path;
 
   return (
-    <AppBar position="static">
+    <AppBar
+      position="static"
+      sx={{
+        background: "linear-gradient(to right,rgb(64, 112, 145), #9b59b6)",
+      }}
+    >
       <Toolbar>
         <Typography
           variant="h6"
           component="div"
           sx={{ flexGrow: 1, display: "flex", alignItems: "center" }}
         >
-          <img
-            src="/quiz.svg"
-            alt="quiz icon"
-            style={{ height: "20px", marginRight: "8px", color: "white" }}
-          />
+          <img src="/quiz.svg" alt="quiz icon" style={{ height: "25px", marginRight: "8px" }} />
           Quiz App
         </Typography>
-        <Box sx={{ flexGrow: 1, mr: 10, display: { xs: "none", md: "flex" } }}>
+        <Box sx={{ flexGrow: 1, mr: 10, display: "flex" }}>
           <Button
             color="inherit"
             component={Link}
