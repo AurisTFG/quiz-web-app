@@ -28,7 +28,7 @@ const HighScoresPage: React.FC = () => {
 
   return (
     <div>
-      <Typography variant="h4" gutterBottom>
+      <Typography variant="h4" gutterBottom sx={{ fontWeight: 600 }}>
         High Scores
       </Typography>
 

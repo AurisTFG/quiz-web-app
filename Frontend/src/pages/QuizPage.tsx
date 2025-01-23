@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { getQuizQuestions, submitAnswers } from "../api/quizApi";
 import { QuizQuestionResponseDTO } from "../types/types";
-import { Button, TextField, Typography } from "@mui/material";
+import { Button, TextField, Typography, Stepper, Step, StepLabel } from "@mui/material";
 import RadioQuestion from "../components/Quiz/RadioQuestion";
 import CheckboxQuestion from "../components/Quiz/CheckboxQuestion";
 import TextBoxQuestion from "../components/Quiz/TextBoxQuestion";
@@ -13,6 +13,7 @@ const QuizPage: React.FC = () => {
   const [questions, setQuestions] = useState<QuizQuestionResponseDTO[]>([]);
   const [answers, setAnswers] = useState<Record<string, string[]>>({});
   const [email, setEmail] = useState("");
+  const [activeStep, setActiveStep] = useState(0);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -38,14 +39,21 @@ const QuizPage: React.FC = () => {
     navigate("/highscores");
   };
 
+  const handleNext = (e: React.FormEvent) => {
+    e.preventDefault();
+    setActiveStep((prevStep) => prevStep + 1);
+  };
+
+  const handleBack = () => {
+    setActiveStep((prevStep) => prevStep - 1);
+  };
+
   return (
     <form onSubmit={handleSubmit}>
       <Typography variant="h4" gutterBottom sx={{ fontWeight: 600 }}>
         General Knowledge Quiz
       </Typography>
-      <Typography variant="h6" gutterBottom>
-        (10 questions)
-      </Typography>
+
       {loading ? (
         <Spinner />
       ) : (
@@ -66,48 +74,79 @@ const QuizPage: React.FC = () => {
             }}
           />
 
-          {questions.map((question) => {
-            if (question.questionType === "radio") {
-              return (
-                <RadioQuestion
-                  key={question.id}
-                  questionId={question.id}
-                  question={question.question}
-                  options={question.options}
-                  handleChange={handleChange}
-                />
-              );
-            }
+          <Stepper activeStep={activeStep} alternativeLabel sx={{ marginBottom: "20px" }}>
+            {questions.map((question, index) => (
+              <Step key={question.id}>
+                <StepLabel
+                  sx={{
+                    whiteSpace: "nowrap",
+                    overflow: "hidden",
+                    textOverflow: "ellipsis",
+                  }}
+                >
+                  {`Question ${index + 1}`}
+                </StepLabel>
+              </Step>
+            ))}
+          </Stepper>
 
-            if (question.questionType === "checkbox") {
-              return (
-                <CheckboxQuestion
-                  key={question.id}
-                  questionId={question.id}
-                  question={question.question}
-                  options={question.options}
-                  answers={answers}
-                  handleChange={handleChange}
-                />
-              );
-            }
+          {questions.length > 0 && (
+            <div>
+              {activeStep < questions.length ? (
+                <>
+                  {questions[activeStep].questionType === "radio" && (
+                    <RadioQuestion
+                      key={questions[activeStep].id}
+                      questionId={questions[activeStep].id}
+                      question={questions[activeStep].question}
+                      options={questions[activeStep].options}
+                      handleChange={handleChange}
+                    />
+                  )}
 
-            if (question.questionType === "textbox") {
-              return (
-                <TextBoxQuestion
-                  key={question.id}
-                  questionId={question.id}
-                  question={question.question}
-                  handleChange={handleChange}
-                />
-              );
-            }
+                  {questions[activeStep].questionType === "checkbox" && (
+                    <CheckboxQuestion
+                      key={questions[activeStep].id}
+                      questionId={questions[activeStep].id}
+                      question={questions[activeStep].question}
+                      options={questions[activeStep].options}
+                      answers={answers}
+                      handleChange={handleChange}
+                    />
+                  )}
 
-            return null;
-          })}
-          <Button type="submit" variant="contained" color="primary">
-            Submit
-          </Button>
+                  {questions[activeStep].questionType === "textbox" && (
+                    <TextBoxQuestion
+                      key={questions[activeStep].id}
+                      questionId={questions[activeStep].id}
+                      question={questions[activeStep].question}
+                      handleChange={handleChange}
+                    />
+                  )}
+
+                  <div>
+                    <Button
+                      disabled={activeStep === 0}
+                      onClick={handleBack}
+                      variant="outlined"
+                      sx={{ marginRight: 2 }}
+                    >
+                      Back
+                    </Button>
+                    {activeStep === questions.length - 1 ? (
+                      <Button type="submit" variant="contained" color="primary">
+                        Submit
+                      </Button>
+                    ) : (
+                      <Button onClick={handleNext} variant="contained" color="primary">
+                        Next
+                      </Button>
+                    )}
+                  </div>
+                </>
+              ) : null}
+            </div>
+          )}
         </>
       )}
     </form>
