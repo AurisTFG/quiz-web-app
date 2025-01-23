@@ -1,18 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { getQuizQuestions, submitAnswers } from "../api/quizApi";
 import { QuizQuestionResponseDTO } from "../types/types";
-import {
-  Button,
-  TextField,
-  FormControlLabel,
-  Checkbox,
-  Radio,
-  RadioGroup,
-  FormLabel,
-  Typography,
-} from "@mui/material";
+import QuizForm from "../components/Quiz/QuizForm";
 import { useNavigate } from "react-router-dom";
-import Spinner from "../components/Spinner/Spinner";
 
 const QuizPage: React.FC = () => {
   const [loading, setLoading] = useState(true);
@@ -45,72 +35,15 @@ const QuizPage: React.FC = () => {
   };
 
   return (
-    <form onSubmit={handleSubmit}>
-      <Typography variant="h4">General Knowledge Quiz (10 questions)</Typography>
-      {loading ? (
-        <Spinner />
-      ) : (
-        <>
-          <TextField
-            label="Email"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            required
-            fullWidth
-            margin="normal"
-          />
-          {questions.map((question) => (
-            <div key={question.id}>
-              <FormLabel>{question.question}</FormLabel>
-              {question.questionType === "radio" && (
-                <RadioGroup onChange={(e) => handleChange(question.id, e.target.value)}>
-                  {question.options.map((option) => (
-                    <FormControlLabel
-                      key={option}
-                      control={<Radio />}
-                      label={option}
-                      value={option}
-                    />
-                  ))}
-                </RadioGroup>
-              )}
-              {question.questionType === "checkbox" && (
-                <>
-                  {question.options.map((option) => (
-                    <div key={option} style={{ textAlign: "left" }}>
-                      <FormControlLabel
-                        control={
-                          <Checkbox
-                            onChange={(e) => {
-                              const value = e.target.checked
-                                ? [...(answers[question.id] || []), option]
-                                : (answers[question.id] || []).filter((ans) => ans !== option);
-                              handleChange(question.id, value);
-                            }}
-                          />
-                        }
-                        label={option}
-                        style={{ display: "block", textAlign: "left" }}
-                      />
-                    </div>
-                  ))}
-                </>
-              )}
-              {question.questionType === "textbox" && (
-                <TextField
-                  onChange={(e) => handleChange(question.id, e.target.value)}
-                  fullWidth
-                  margin="normal"
-                />
-              )}
-            </div>
-          ))}
-          <Button type="submit" variant="contained" color="primary">
-            Submit
-          </Button>
-        </>
-      )}
-    </form>
+    <QuizForm
+      loading={loading}
+      questions={questions}
+      answers={answers}
+      email={email}
+      setEmail={setEmail}
+      handleChange={handleChange}
+      handleSubmit={handleSubmit}
+    />
   );
 };
 
