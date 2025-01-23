@@ -3,7 +3,7 @@ import { getHighScores } from "../api/quizApi";
 import { QuizResultResponseDTO } from "../types/types";
 import { List, ListItem, ListItemText, Typography } from "@mui/material";
 
-const HighScores: React.FC = () => {
+const HighScoresPage: React.FC = () => {
   const [highScores, setHighScores] = useState<QuizResultResponseDTO[]>([]);
 
   useEffect(() => {
@@ -38,4 +38,4 @@ const HighScores: React.FC = () => {
   );
 };
 
-export default HighScores;
+export default HighScoresPage;

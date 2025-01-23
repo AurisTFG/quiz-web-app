@@ -13,7 +13,7 @@ import {
 } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 
-const Quiz: React.FC = () => {
+const QuizPage: React.FC = () => {
   const [questions, setQuestions] = useState<QuizQuestionResponseDTO[]>([]);
   const [answers, setAnswers] = useState<Record<string, string[]>>({});
   const [email, setEmail] = useState("");
@@ -98,4 +98,4 @@ const Quiz: React.FC = () => {
   );
 };
 
-export default Quiz;
+export default QuizPage;

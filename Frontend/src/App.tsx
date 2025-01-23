@@ -4,8 +4,8 @@ import { CssBaseline } from "@mui/material";
 import Header from "./components/Header/Header";
 import Content from "./components/Content/Content.tsx";
 import Footer from "./components/Footer/Footer.tsx";
-import Quiz from "./pages/Quiz";
-import HighScores from "./pages/HighScores";
+import QuizPage from "./pages/QuizPage.tsx";
+import HighScoresPage from "./pages/HighScoresPage.tsx";
 import "./App.css";
 
 const App: React.FC = () => {
@@ -16,8 +16,8 @@ const App: React.FC = () => {
         <Header />
         <Content>
           <Routes>
-            <Route path="/" element={<Quiz />} />
-            <Route path="/highscores" element={<HighScores />} />
+            <Route path="/" element={<QuizPage />} />
+            <Route path="/highscores" element={<HighScoresPage />} />
           </Routes>
         </Content>
         <Footer />
