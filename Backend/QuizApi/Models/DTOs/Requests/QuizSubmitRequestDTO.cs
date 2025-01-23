@@ -1,13 +1,7 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿namespace QuizApi.Models.DTOs.Requests;
 
-namespace QuizApi.Models.DTOs.Requests;
-
-public class QuizSubmitRequestDTO
-{
-    [Required]
-    [EmailAddress]
-    public string Email { get; set; } = "";
-
-    [Required]
-    public Dictionary<int, string[]> Answers { get; set; } = [];
-}
+public record QuizSubmitRequestDTO
+(
+    string Email,
+    Dictionary<int, string[]> Answers
+);

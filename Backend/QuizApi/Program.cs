@@ -1,3 +1,5 @@
+using FluentValidation;
+using FluentValidation.AspNetCore;
 using Microsoft.EntityFrameworkCore;
 using QuizApi.Infrastructure.Converters;
 using QuizApi.Infrastructure.DbContexts;
@@ -28,6 +30,9 @@ builder.Services.AddControllers()
                 });
 
 builder.Services.AddAutoMapper(typeof(Program));
+
+builder.Services.AddFluentValidationAutoValidation();
+builder.Services.AddValidatorsFromAssemblyContaining<Program>();
 
 var app = builder.Build();
 
