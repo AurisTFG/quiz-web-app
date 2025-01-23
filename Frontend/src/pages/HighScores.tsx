@@ -21,7 +21,10 @@ const HighScores: React.FC = () => {
         {highScores.slice(0, 10).map((score, index) => (
           <ListItem
             key={index}
-            style={{ color: index < 3 ? ["gold", "silver", "bronze"][index] : "black" }}
+            style={{
+              color:
+                index === 0 ? "gold" : index === 1 ? "silver" : index === 2 ? "#CD7F32" : "black",
+            }}
           >
             <ListItemText
               primary={`#${index + 1} - ${score.email} - ${score.score} points - ${new Date(
