@@ -1,5 +1,4 @@
 ﻿using QuizApi.Infrastructure.DbContexts;
-using QuizApi.Infrastructure.Seeders;
 
 namespace QuizApi.Infrastructure.Seeders;
 

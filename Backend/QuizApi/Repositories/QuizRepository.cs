@@ -15,7 +15,18 @@ public class QuizRepository(QuizDbContext context) : IQuizRepository
 
     public async Task SaveQuizResultAsync(QuizResult entry)
     {
-        context.QuizResults.Add(entry);
+        var existingEntry = await context.QuizResults.FirstOrDefaultAsync(q => q.Email == entry.Email);
+
+        if (existingEntry != null)
+        {
+            existingEntry.Score = entry.Score;
+            existingEntry.SubmittedAt = DateTime.UtcNow;
+            context.QuizResults.Update(existingEntry);
+        }
+        else
+        {
+            await context.QuizResults.AddAsync(entry);
+        }
 
         await context.SaveChangesAsync();
     }
