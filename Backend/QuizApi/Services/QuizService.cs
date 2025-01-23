@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using QuizApi.Infrastructure.Constants;
 using QuizApi.Models.DTOs.Requests;
 using QuizApi.Models.DTOs.Responses;
 using QuizApi.Models.Entities;
@@ -33,7 +34,7 @@ public class QuizService(IQuizRepository quizRepository, IMapper mapper) : IQuiz
 
     public async Task<List<QuizResultResponseDTO>> GetHighScoresAsync()
     {
-        var highScores = await quizRepository.GetTopHighScoresAsync(10);
+        var highScores = await quizRepository.GetTopHighScoresAsync(QuizSettings.MaxQuestionId);
 
         return [.. highScores.Select(mapper.Map<QuizResultResponseDTO>)];
     }
@@ -41,6 +42,7 @@ public class QuizService(IQuizRepository quizRepository, IMapper mapper) : IQuiz
     private static int CalculateScore(List<QuizQuestion> questions, Dictionary<int, string[]> answers)
     {
         int totalScore = 0;
+        int scorePerQuestion = QuizSettings.MaxScorePerQuestion;
 
         foreach (var question in questions)
         {
@@ -48,13 +50,13 @@ public class QuizService(IQuizRepository quizRepository, IMapper mapper) : IQuiz
                 continue;
 
             if (question.CorrectAnswers.Length == 0 || providedAnswers.Length == 0)
-                continue;
+                throw new InvalidOperationException("This should never happen");
 
             switch (question.QuestionType)
             {
                 case QuestionType.Radio:
                     if (question.CorrectAnswers[0] == providedAnswers[0])
-                        totalScore += 100;
+                        totalScore += scorePerQuestion;
 
                     break;
                 case QuestionType.Checkbox:
@@ -62,7 +64,7 @@ public class QuizService(IQuizRepository quizRepository, IMapper mapper) : IQuiz
                     int correctCount = providedAnswers.Intersect(question.CorrectAnswers).Count();
                     int wrongCount = providedAnswers.Length - correctCount;
 
-                    int score = (int)Math.Ceiling((100.0 / goodAnswerCount * correctCount) - (100.0 / goodAnswerCount * wrongCount));
+                    int score = (int)Math.Ceiling(((double)scorePerQuestion / goodAnswerCount * correctCount) - (scorePerQuestion / goodAnswerCount * wrongCount));
 
                     if (score > 0)
                         totalScore += score;
@@ -70,7 +72,7 @@ public class QuizService(IQuizRepository quizRepository, IMapper mapper) : IQuiz
                     break;
                 case QuestionType.Textbox:
                     if (string.Equals(question.CorrectAnswers[0], providedAnswers[0], StringComparison.OrdinalIgnoreCase))
-                        totalScore += 100;
+                        totalScore += scorePerQuestion;
 
                     break;
             }
