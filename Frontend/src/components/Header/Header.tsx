@@ -1,12 +1,8 @@
 import React from "react";
-import { AppBar, Toolbar, Typography, Button, Box } from "@mui/material";
-import { Link } from "react-router-dom";
-import { useLocation } from "react-router-dom";
+import { AppBar, Toolbar, Typography, Box } from "@mui/material";
+import NavButtons from "./NavButtons";
 
 const Header: React.FC = () => {
-  const location = useLocation();
-  const isActive = (path: string) => location.pathname === path;
-
   return (
     <AppBar
       position="static"
@@ -23,31 +19,8 @@ const Header: React.FC = () => {
           <img src="/quiz.svg" alt="quiz icon" style={{ height: "25px", marginRight: "8px" }} />
           Quiz App
         </Typography>
-        <Box sx={{ flexGrow: 1, mr: 10, display: "flex" }}>
-          <Button
-            color="inherit"
-            component={Link}
-            to="/"
-            sx={{
-              mr: 1,
-              textDecoration: isActive("/") ? "underline" : "none",
-              fontSize: "1.20rem",
-            }}
-          >
-            Quiz
-          </Button>
-          <Button
-            color="inherit"
-            component={Link}
-            to="/highscores"
-            sx={{
-              mr: 1,
-              textDecoration: isActive("/highscores") ? "underline" : "none",
-              fontSize: "1.20rem",
-            }}
-          >
-            High Scores
-          </Button>
+        <Box sx={{ flexGrow: 1, mr: 13, display: "flex" }}>
+          <NavButtons />
         </Box>
       </Toolbar>
     </AppBar>
